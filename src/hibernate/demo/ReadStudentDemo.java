@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 
 import hibernate.demo.entity.Student;
 
-public class CreateStudentDemo {
+public class ReadStudentDemo {
 
 	public static void main(String[] args) {
 		
@@ -19,14 +19,18 @@ public class CreateStudentDemo {
 		
 		try {
 			
-			Student tempStudent = new Student("First", "StudentFirst", "good@man.com");
-			
-			session.beginTransaction();
-			
+			//SAVING Student
+			Student tempStudent = new Student("Daffy", "Duck", "good@duck.com");		
+			session.beginTransaction();		
 			session.save(tempStudent);
-			
 			session.getTransaction().commit();
 			
+			//READING Student
+			session = factory.getCurrentSession();
+			session.beginTransaction();
+			Student resultStudent = session.get(Student.class, tempStudent.getId());
+			session.getTransaction().commit();
+			System.out.println(resultStudent);
 		} finally {
 			factory.close();
 		}
